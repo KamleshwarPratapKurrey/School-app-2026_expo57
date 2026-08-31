@@ -3,28 +3,81 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
-import '@/global.css';
-
 import { Platform } from 'react-native';
+
+const tintColorLight = '#0a7ea4';
+const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#000000',            // iOS primary label
+    subtext: '#727274',
+    background: '#F2F2F7',      // systemGroupedBackground
+    card: '#FFFFFF',            // secondarySystemGroupedBackground
+              
+    tint: '#007AFF',            // iOS blue
+    btntext: '#ffffff',
+    icon: '#8E8E93',            // secondary label
+    tabIconDefault: '#8E8E93',
+    tabIconSelected: '#007AFF',
+    // border: '#C6C6C8',          // separator
+    border: 'rgba(60, 64, 67, 0.29)',  // separator
+    borderL: '#e8e6e6',
+    pad: 20,
+    brad: 30,
+    btnclr: "#ffffff",
+    shadowClr: "#00000053",
+
+    font48: 48,
+    font46: 46,
+    font42: 42,
+    font39: 39,
+    font36: 36,
+    font32: 32,
+    font28: 28,
+    font24: 24,
+    font22: 22,
+    font20: 20,
+    font18: 18,
+    font16: 16,
+    font14: 14,
+    font13: 13,
+    font12: 12,
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
-  },
-} as const;
+    text: '#e1e1e1',            // primary label dark
+    subtext: '#b1b1b4',
+    background: '#000000',      // system background dark
+    card: '#1C1C1E',            // secondary system background dark
+    tint: '#007AFF',            // iOS dark blue
+    btntext: '#ffffff',
+    icon: '#8E8E93',
+    tabIconDefault: '#8E8E93',
+    tabIconSelected: '#007AFF',
+    border: '#38383A',          // separator dark
+    borderL: '#2c2c2c',
+    pad: 16,
+    brad: 30,
+    btnclr: "#ffffff",
+    shadowClr: "#00000053",
 
-export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+    font48: 48,
+    font46: 46,
+    font42: 42,
+    font39: 39,
+    font36: 36,
+    font32: 32,
+    font28: 28,
+    font24: 24,
+    font22: 22,
+    font20: 20,
+    font18: 18,
+    font16: 16,
+    font14: 14,
+    font13: 13,
+    font12: 12,
+  },
+};
 
 export const Fonts = Platform.select({
   ios: {
@@ -36,30 +89,49 @@ export const Fonts = Platform.select({
     rounded: 'ui-rounded',
     /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
+
+    // MY FONT--start
+    regular: "regular",
+    light: "light",
+    heavy: "heavy",
+    semibold: "semibold",
+    // MY FONT--end
+  },
+  android: {
+    sans: 'Roboto',
+    serif: 'serif',
+    rounded: 'sans-serif',
+    mono: 'monospace',
+    // MY FONT--start
+    regular: "regular",
+    light: "light",
+    heavy: "heavy",
+    semibold: "semibold",
+    // MY FONT--end
   },
   default: {
     sans: 'normal',
     serif: 'serif',
     rounded: 'normal',
     mono: 'monospace',
+    // MY FONT--start
+    regular: "regular",
+    light: "light",
+    heavy: "heavy",
+    semibold: "semibold",
+    // MY FONT--end
   },
   web: {
-    sans: 'var(--font-display)',
-    serif: 'var(--font-serif)',
-    rounded: 'var(--font-rounded)',
-    mono: 'var(--font-mono)',
+    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    serif: "Georgia, 'Times New Roman', serif",
+    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    // MY FONT--start
+    regular: "regular",
+    light: "light",
+    heavy: "heavy",
+    semibold: "semibold",
+    // MY FONT--end
   },
 });
 
-export const Spacing = {
-  half: 2,
-  one: 4,
-  two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
-} as const;
-
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
