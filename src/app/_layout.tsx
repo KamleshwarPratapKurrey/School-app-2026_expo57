@@ -1,11 +1,15 @@
 // import { ToastConfig } from "@/components/common/Toast/ToastConfig";
+import { ToastConfig } from "@/components/common/Toast/ToastConfig";
 import RootStack from "@/components/stack_navig/RootStack";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import { UserProvider, useUser } from "@/context/UserContext";
+import { store } from "@/store";
 // import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
 // import Toast from "react-native-toast-message";
 // import { Provider as ReduxProvider } from "react-redux";
 // import { store } from "@/store";
@@ -59,20 +63,22 @@ function AppContent() {
   return (
     <>
       <RootStack />
-      {/* <Toast config={ToastConfig(theme === "dark")} /> */}
+        <StatusBar style={theme === "dark"? "light": "dark"} />
+
+      <Toast config={ToastConfig(theme === "dark")} />
     </>
   );
 }
 
 export default function RootLayout() {
   return (
-    // <ReduxProvider store={store}>
+    <Provider store={store}>
     <ThemeProvider>
       <UserProvider>
         <AppContent />
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </UserProvider>
     </ThemeProvider>
-    // </ReduxProvider>
+    </Provider>
   );
 }

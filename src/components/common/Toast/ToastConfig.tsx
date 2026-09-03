@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     // Standard StyleSheet equivalent of min-width
     minWidth: width > 400 ? 360 : 220,
-    borderWidth: 1,
+    borderWidth: 0,
     // Elevation/Shadows
     shadowColor: "#0000007f",
     shadowOpacity: 0.1,

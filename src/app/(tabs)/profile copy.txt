@@ -1,0 +1,483 @@
+import { useTheme } from "@/context/ThemeContext";
+import { useUser } from "@/context/UserContext";
+import {
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    TouchableOpacity,
+    useWindowDimensions,
+    View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+export default function Profile() {
+  const { colors, theme, toggleTheme } = useTheme();
+  const { user, logout, loading } = useUser();
+  const { width } = useWindowDimensions();
+
+  // Breakpoints
+  const isTablet = width >= 768;
+  const isDark = theme === "dark";
+
+  // Palette tokens
+  const dynamicStyles = {
+    bg: colors.background ?? (isDark ? "#0A0A0C" : "#F4F6F8"),
+    cardBg: isDark ? "#16171B" : "#FFFFFF",
+    borderColor: isDark ? "#ffffff14" : "#0000000f",
+    textPrimary: colors.text ?? (isDark ? "#F5F5F7" : "#1A1A1E"),
+    textSecondary: isDark ? "#8E8E93" : "#6E6E73",
+    subtleBg: isDark ? "#222329" : "#F0F2F5",
+    accent: "#6366F1",
+    dangerBg: isDark ? "#ef44441f" : "#FEE2E2",
+    dangerText: "#EF4444",
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={[
+          styles.container,
+          styles.center,
+          { backgroundColor: dynamicStyles.bg },
+        ]}
+      >
+        <ActivityIndicator size="large" color={dynamicStyles.accent} />
+      </SafeAreaView>
+    );
+  }
+
+  // Safe fallback data
+  const userData = (user as any) || {};
+  const initials = userData?.name
+    ? userData.name
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "GU";
+
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: dynamicStyles.bg }]}
+    >
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContainer,
+          isTablet && styles.tabletScrollContainer,
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Responsive Content Wrapper */}
+        <View
+          style={[styles.contentLayout, isTablet && styles.tabletContentLayout]}
+        >
+          {/* LEFT COLUMN ON TABLET: User Identity Card */}
+          <View
+            style={[
+              styles.userCard,
+              isTablet && styles.tabletUserCard,
+              {
+                backgroundColor: dynamicStyles.cardBg,
+                borderColor: dynamicStyles.borderColor,
+              },
+            ]}
+          >
+            <View style={styles.avatarWrapper}>
+              {userData.avatar ? (
+                <Image
+                  source={{ uri: userData.avatar }}
+                  style={styles.avatar}
+                />
+              ) : (
+                <View
+                  style={[
+                    styles.avatarPlaceholder,
+                    { backgroundColor: dynamicStyles.subtleBg },
+                  ]}
+                >
+                  <Text
+                    style={[styles.avatarText, { color: dynamicStyles.accent }]}
+                  >
+                    {initials}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.onlineBadge} />
+            </View>
+
+            <Text
+              style={[styles.userName, { color: dynamicStyles.textPrimary }]}
+            >
+              {userData.name || "Guest User"}
+            </Text>
+            <Text
+              style={[styles.userEmail, { color: dynamicStyles.textSecondary }]}
+            >
+              {userData.email || "No email linked"}
+            </Text>
+
+            {/* Quick Stats or Tags */}
+            <View style={styles.badgeRow}>
+              <View
+                style={[
+                  styles.badge,
+                  { backgroundColor: dynamicStyles.subtleBg },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.badgeText,
+                    { color: dynamicStyles.textSecondary },
+                  ]}
+                >
+                  {userData.role || "Member"}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* RIGHT COLUMN ON TABLET: Settings & Actions */}
+          <View
+            style={[
+              styles.settingsColumn,
+              isTablet && styles.tabletSettingsColumn,
+            ]}
+          >
+            {/* Preferences Group */}
+            <View style={styles.section}>
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  { color: dynamicStyles.textSecondary },
+                ]}
+              >
+                Appearance & Experience
+              </Text>
+              <View
+                style={[
+                  styles.groupCard,
+                  {
+                    backgroundColor: dynamicStyles.cardBg,
+                    borderColor: dynamicStyles.borderColor,
+                  },
+                ]}
+              >
+                <View style={styles.rowItem}>
+                  <View style={styles.rowInfo}>
+                    <Text
+                      style={[
+                        styles.rowTitle,
+                        { color: dynamicStyles.textPrimary },
+                      ]}
+                    >
+                      Dark Mode
+                    </Text>
+                    <Text
+                      style={[
+                        styles.rowSubtitle,
+                        { color: dynamicStyles.textSecondary },
+                      ]}
+                    >
+                      {isDark ? "Dark theme active" : "Light theme active"}
+                    </Text>
+                  </View>
+                  <Switch
+                    value={isDark}
+                    onValueChange={toggleTheme}
+                    trackColor={{
+                      false: "#D1D5DB",
+                      true: dynamicStyles.accent,
+                    }}
+                    thumbColor="#FFFFFF"
+                  />
+                </View>
+              </View>
+            </View>
+
+            {/* Account Settings Group */}
+            <View style={styles.section}>
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  { color: dynamicStyles.textSecondary },
+                ]}
+              >
+                Account & Security
+              </Text>
+              <View
+                style={[
+                  styles.groupCard,
+                  {
+                    backgroundColor: dynamicStyles.cardBg,
+                    borderColor: dynamicStyles.borderColor,
+                  },
+                ]}
+              >
+                <TouchableOpacity
+                  style={[
+                    styles.rowItem,
+                    styles.borderBottom,
+                    { borderBottomColor: dynamicStyles.borderColor },
+                  ]}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.rowInfo}>
+                    <Text
+                      style={[
+                        styles.rowTitle,
+                        { color: dynamicStyles.textPrimary },
+                      ]}
+                    >
+                      Edit Profile
+                    </Text>
+                    <Text
+                      style={[
+                        styles.rowSubtitle,
+                        { color: dynamicStyles.textSecondary },
+                      ]}
+                    >
+                      Update your photo and personal info
+                    </Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.chevron,
+                      { color: dynamicStyles.textSecondary },
+                    ]}
+                  >
+                    ›
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.rowItem} activeOpacity={0.7}>
+                  <View style={styles.rowInfo}>
+                    <Text
+                      style={[
+                        styles.rowTitle,
+                        { color: dynamicStyles.textPrimary },
+                      ]}
+                    >
+                      Privacy & Notifications
+                    </Text>
+                    <Text
+                      style={[
+                        styles.rowSubtitle,
+                        { color: dynamicStyles.textSecondary },
+                      ]}
+                    >
+                      Manage device permissions
+                    </Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.chevron,
+                      { color: dynamicStyles.textSecondary },
+                    ]}
+                  >
+                    ›
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Logout Action */}
+            <TouchableOpacity
+              style={[
+                styles.logoutButton,
+                {
+                  backgroundColor: dynamicStyles.dangerBg,
+                  borderColor: isDark
+                    ? "transparent"
+                    : dynamicStyles.dangerText + "33",
+                },
+              ]}
+              activeOpacity={0.8}
+              onPress={logout}
+            >
+              <Text
+                style={[
+                  styles.logoutButtonText,
+                  { color: dynamicStyles.dangerText },
+                ]}
+              >
+                Log Out
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  scrollContainer: {
+    padding: 16,
+    paddingBottom: 40,
+  },
+  tabletScrollContainer: {
+    padding: 32,
+    alignItems: "center",
+  },
+  contentLayout: {
+    width: "100%",
+    flexDirection: "column",
+    gap: 16,
+  },
+  tabletContentLayout: {
+    flexDirection: "row",
+    maxWidth: 960,
+    gap: 24,
+    alignItems: "flex-start",
+  },
+  // User Profile Card
+  userCard: {
+    padding: 24,
+    borderRadius: 24,
+    borderWidth: 0,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 12,
+    // elevation: 2,
+  },
+  tabletUserCard: {
+    flex: 1,
+    paddingVertical: 36,
+  },
+  avatarWrapper: {
+    position: "relative",
+    marginBottom: 16,
+  },
+  avatar: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+  },
+  avatarPlaceholder: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  avatarText: {
+    fontSize: 32,
+    fontWeight: "700",
+  },
+  onlineBadge: {
+    position: "absolute",
+    bottom: 2,
+    right: 4,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: "#10B981",
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+  },
+  userName: {
+    fontSize: 22,
+    fontWeight: "700",
+    letterSpacing: -0.3,
+    marginBottom: 4,
+    textAlign: "center",
+  },
+  userEmail: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  badgeRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "capitalize",
+  },
+  // Right Column / Settings
+  settingsColumn: {
+    width: "100%",
+    gap: 16,
+  },
+  tabletSettingsColumn: {
+    flex: 1.8,
+  },
+  section: {
+    gap: 8,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+    paddingHorizontal: 4,
+  },
+  groupCard: {
+    borderRadius: 20,
+    borderWidth: 0,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.03,
+    shadowRadius: 10,
+    // elevation: 1,
+  },
+  rowItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  borderBottom: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  rowInfo: {
+    flex: 1,
+    paddingRight: 16,
+  },
+  rowTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  rowSubtitle: {
+    fontSize: 13,
+  },
+  chevron: {
+    fontSize: 20,
+    fontWeight: "400",
+  },
+  logoutButton: {
+    marginTop: 8,
+    paddingVertical: 16,
+    borderRadius: 18,
+    borderWidth: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoutButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+  },
+});

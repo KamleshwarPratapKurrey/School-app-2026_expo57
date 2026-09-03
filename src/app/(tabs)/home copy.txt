@@ -1,0 +1,48 @@
+import { api_url } from "@/components/common/ApiUrls";
+import { StatusCode } from "@/constants/app_constants";
+import { useUser } from "@/context/UserContext";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchSchoolInfo } from "@/store/slices/school_info_slice";
+import { useEffect } from "react";
+import { ActivityIndicator, Image, Text, View } from "react-native";
+
+export default function HomeStudentDashboard() {
+  const dispatch = useAppDispatch();
+  const { token } = useUser();
+  const { school_info, status, error } = useAppSelector(
+    (state) => state.school_info,
+  );
+
+  useEffect(() => {
+    dispatch(
+      fetchSchoolInfo({
+        endpoint: `${api_url}/school-info`,
+        token,
+      }),
+    );
+  }, [dispatch, token]);
+
+  if (status === StatusCode.LOADING) {
+    return <ActivityIndicator size="large" />;
+  }
+
+  if (status === StatusCode.FAILED) {
+    return <Text style={{ color: "red" }}>{error}</Text>;
+  }
+
+  return (
+    <View>
+      {school_info?.logo && (
+        // school_info.logo ||
+        <Image
+          source={{
+            uri: `https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D`,
+          }}
+          style={{ width: 80, height: 80, borderRadius: 40 }}
+        />
+      )}
+      <Text>{school_info?.name}</Text>
+      <Text>{school_info?.address}</Text>
+    </View>
+  );
+}

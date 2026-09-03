@@ -21,6 +21,7 @@ export default function RootStack() {
 
       screenOptions={{
         // headerStyle: { backgroundColor: colors.background + "aa" },
+        headerStyle: { backgroundColor: colors.background },
         headerTintColor: colors.text,
         headerTitleStyle: { fontFamily: Fonts.semibold },
 
@@ -39,9 +40,58 @@ export default function RootStack() {
         <Stack.Screen
           name="(tabs)"
           options={{
-            headerShown: true,
+            headerShown: false,
             title: "Home",
             // headerTransparent: true,
+          }}
+        />
+
+        <Stack.Screen
+          name="attendance"
+          options={{
+            // headerShown: false,
+            title: "Attendance",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="teachers"
+          options={{
+            // headerShown: false,
+            title: "Faculty & Staff",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="notices"
+          options={{
+            // headerShown: false,
+            title: "Notices",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="timetable"
+          options={{
+            // headerShown: false,
+            title: "",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="transport"
+          options={{
+            // headerShown: false,
+            title: "",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="subjects"
+          options={{
+            // headerShown: false,
+            title: "",
+            headerTransparent: false,
           }}
         />
 

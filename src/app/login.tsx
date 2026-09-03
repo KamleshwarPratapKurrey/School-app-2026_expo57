@@ -1,24 +1,24 @@
-import Feather from "@expo/vector-icons/Feather";
-import { useRouter } from "expo-router";
-
 import { api_url } from "@/components/common/ApiUrls";
 import { showErrorToast } from "@/components/common/Toast/ToastService";
 import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
+import { User } from "@/types/api";
+import Feather from "@expo/vector-icons/Feather";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 export default function Login() {
@@ -73,19 +73,19 @@ export default function Login() {
     return valid;
   };
 
-  const onLogin = async () => {
-    const sample_login_data = {
-      user: {
-        id: 1,
-        name: "KPK",
-        email: "k@gmail.com",
-      },
-      token: "435dfkjlgsdfio45sdfsdlkf",
-    };
-    login(sample_login_data.token, sample_login_data.user);
-    // router.replace("/home");
-    return;
-  };
+  // const onLogin = async () => {
+  //   const sample_login_data = {
+  //     user: {
+  //       id: 1,
+  //       name: "KPK",
+  //       email: "k@gmail.com",
+  //     },
+  //     token: "435dfkjlgsdfio45sdfsdlkf",
+  //   };
+  //   login(sample_login_data.token, sample_login_data.user);
+  //   // router.replace("/home");
+  //   return;
+  // };
   const onLoginM = async () => {
     if (!validate()) {
       // return showErrorToast(
@@ -94,7 +94,6 @@ export default function Login() {
       // );
       return;
     }
-
     try {
       setFetchLoader(true);
       const raw = {
@@ -110,16 +109,27 @@ export default function Login() {
         body: JSON.stringify(raw),
       });
       const data = await res.json();
-      console.log("login-res->", res);
-      if (res.ok) {
-        // await login(data);
+      // console.log("login-res->", data);
+      if (data.status) {
+        const login_user: User = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          mobile: data.user.mobile,
+          role: data.user.role,
+          user_id: data.user.user_id,
+          session: {
+            id: data.session.id,
+            year: data.session.year,
+          },
+        };
+        console.log("login_user->", login_user);
+        await login(data.token, login_user);
         // ✅ go to tabs
         router.replace("/home");
-      } else if (data?.non_field_errors) {
-        showErrorToast(data?.non_field_errors);
       } else {
-        // showErrorToast("Something went wrong", "");
-        showErrorToast("An error occurred.", "");
+        const err_msg: string = data?.message || "An error occurred.";
+        showErrorToast(err_msg);
       }
     } catch (e: any) {
       console.log("Login error", e);
@@ -395,7 +405,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   input: {
-    // borderWidth: 1,
+    // borderWidth: 0,
     // borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 20,

@@ -51,6 +51,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const logoutK = async () => {
     await SecureStore.deleteItemAsync("token");
     await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("stored_notices_count");
     setToken(null);
     setUser(null);
   };

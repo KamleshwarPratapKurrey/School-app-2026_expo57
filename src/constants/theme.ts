@@ -11,7 +11,7 @@ const tintColorDark = '#fff';
 export const Colors = {
   light: {
     text: '#000000',            // iOS primary label
-    subtext: '#727274',
+    subtext: '#6E6E73',
     background: '#F2F2F7',      // systemGroupedBackground
     card: '#FFFFFF',            // secondarySystemGroupedBackground
               
@@ -21,7 +21,7 @@ export const Colors = {
     tabIconDefault: '#8E8E93',
     tabIconSelected: '#007AFF',
     // border: '#C6C6C8',          // separator
-    border: 'rgba(60, 64, 67, 0.29)',  // separator
+    border: '#0000000f',  // separator
     borderL: '#e8e6e6',
     pad: 20,
     brad: 30,
@@ -46,15 +46,15 @@ export const Colors = {
   },
   dark: {
     text: '#e1e1e1',            // primary label dark
-    subtext: '#b1b1b4',
+    subtext: '#8E8E93',
     background: '#000000',      // system background dark
-    card: '#1C1C1E',            // secondary system background dark
+    card: '#16171B',            // secondary system background dark
     tint: '#007AFF',            // iOS dark blue
     btntext: '#ffffff',
     icon: '#8E8E93',
     tabIconDefault: '#8E8E93',
     tabIconSelected: '#007AFF',
-    border: '#38383A',          // separator dark
+    border: '#ffffff14',          // separator dark
     borderL: '#2c2c2c',
     pad: 16,
     brad: 30,
