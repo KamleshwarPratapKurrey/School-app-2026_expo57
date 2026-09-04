@@ -1,0 +1,561 @@
+{
+  "info": {
+    "_postman_id": "0321835d-3b2d-4f78-9234-d10ef7d38333",
+    "name": "school",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49718233",
+    "_collection_link": "https://go.postman.co/collection/49718233-0321835d-3b2d-4f78-9234-d10ef7d38333?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"9876543210\",\r\n    \"password\": \"password123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "exam_time table",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/exam-time-table",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "exam-time-table"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "school-info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/school-info",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "school-info"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "notices",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/notices",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "notices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/fees",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "fees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "complaints",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/complaints",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "complaints"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "attendance",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/attendance",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "attendance"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "teachers",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/teachers",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "teachers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "transport",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/transport",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "transport"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "subjects",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/subjects",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "subjects"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "complaints",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_1dnr}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "student_id",
+              "type": "text",
+              "uuid": "faa8f332-b223-445e-8a0d-b91e2b467b73",
+              "value": "99999 "
+            },
+            {
+              "key": "title",
+              "type": "text",
+              "uuid": "a72d63c8-bf0c-4a47-9c3e-b778a09a1d98",
+              "value": "Not bringing books"
+            },
+            {
+              "key": "description",
+              "type": "text",
+              "uuid": "392c12e2-5876-48b2-89f1-6860167126b0",
+              "value": "He is not bringing math books for a week."
+            },
+            {
+              "key": "complaint_date",
+              "type": "text",
+              "uuid": "60178782-1915-4d20-ab26-1d4e25572f83",
+              "value": "2026-08-31"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/complaints",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "complaints"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "techear login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"teacher\",\r\n    \"password\": \"Teacher@123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Log out",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0uvn}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/logout",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "students",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_1dnr}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/teacher/students",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "teacher",
+            "students"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "teacher/profile",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_1dnr}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost/School_Management/public/api/teacher/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "School_Management",
+            "public",
+            "api",
+            "teacher",
+            "profile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "auth_secret_0uvn",
+      "secret": true
+    },
+    {
+      "key": "auth_secret_1dnr",
+      "secret": true
+    }
+  ]
+}

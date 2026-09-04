@@ -94,6 +94,22 @@ export default function RootStack() {
             headerTransparent: false,
           }}
         />
+        <Stack.Screen
+          name="students"
+          options={{
+            // headerShown: false,
+            title: "Students",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="complaints"
+          options={{
+            // headerShown: false,
+            title: "Complaint",
+            headerTransparent: false,
+          }}
+        />
 
         {/* <Stack.Screen
             name="trips/ongoing_trip/9"

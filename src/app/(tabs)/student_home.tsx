@@ -24,7 +24,7 @@ import { fetchSchoolInfo } from "@/store/slices/school_info_slice";
 import { Href, Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function DashboardScreen() {
+export default function StudentDashboardScreen() {
   const { colors, theme } = useTheme();
   const { user, token } = useUser();
   const dispatch = useAppDispatch();
@@ -746,7 +746,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     // elevation: 2,
     flexDirection:"row",
-    gap: 2,
+    gap: 6,
   },
   quickIconCircle: {
     width: 50,

@@ -1,3 +1,4 @@
+import { api_url } from "@/components/common/ApiUrls";
 import { User } from "@/types/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
@@ -54,8 +55,22 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     await AsyncStorage.removeItem("stored_notices_count");
     setToken(null);
     setUser(null);
+    await userLogoutFun();
   };
 
+  const userLogoutFun = async () => {
+    try {
+      const res = await fetch(`${api_url}/logout`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (e: any) {
+      // console.log("e->")
+    }
+  };
   const triggerLogoutAlert = async () => {
     Alert.alert(
       "Logout",

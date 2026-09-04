@@ -47,13 +47,12 @@ export default function Login() {
     // 1. Mobile Validation (Checking 10 digits)
     const mobileRegex = /^[0-9]{10}$/;
     if (!mob.trim()) {
-      newErrors.mob = "Username number is required";
+      newErrors.mob = "Mobile number is required";
       valid = false;
-    } 
-    // else if (!mobileRegex.test(mob)) {
-    //   newErrors.mob = "Enter a valid 10-digit mobile number";
-    //   valid = false;
-    // }
+    } else if (!mobileRegex.test(mob)) {
+      newErrors.mob = "Enter a valid 10-digit mobile number";
+      valid = false;
+    }
 
     // 2. Password Validation (Complex Mix)
     // Breakdown: Lowercase, Uppercase, Digit, Special Char, Min 8
@@ -124,10 +123,10 @@ export default function Login() {
             year: data.session.year,
           },
         };
-        // console.log("login_user->", login_user);
+        console.log("login_user->", login_user);
         await login(data.token, login_user);
         // ✅ go to tabs
-        router.replace("/");
+        router.replace("/home");
       } else {
         const err_msg: string = data?.message || "An error occurred.";
         showErrorToast(err_msg);
@@ -219,13 +218,12 @@ export default function Login() {
                   },
                 ]}
               >
-                Username
+                Mobile
               </Text>
               <TextInput
-                // keyboardType="number-pad"
-                // inputMode={"decimal"}
-                autoCapitalize="none"
-                placeholder="Enter username"
+                keyboardType="number-pad"
+                inputMode={"decimal"}
+                placeholder="Enter your 10 digit mobile"
                 value={mob}
                 onChangeText={(text) => {
                   setMob(text);

@@ -5,7 +5,7 @@ export default function Index() {
   if (loading) return null;
 
   return user ? (
-    <Redirect href={"/(tabs)/home" as Href} />
+    <Redirect href={"/(tabs)" as Href} />
   ) : (
     // <Redirect href={"/onboarding/welcome" as Href} />
     <Redirect href={"/login" as Href} />

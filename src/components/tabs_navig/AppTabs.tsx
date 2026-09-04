@@ -3,10 +3,12 @@ import { Platform } from "react-native";
 
 import { useTheme } from "@/context/ThemeContext";
 import { Icon } from "expo-router";
+import { useUser } from "@/context/UserContext";
 
 export default function AppTabs() {
   //   const colors = Colors[scheme === "unspecified" ? "light" : scheme];
   const { colors } = useTheme();
+  const {user} = useUser()
 
   return (
     <NativeTabs
@@ -21,7 +23,7 @@ export default function AppTabs() {
       //   selected: colors.tabIconSelected,
       // }}
     >
-      <NativeTabs.Trigger name="home">
+      <NativeTabs.Trigger name={user?.role === "Student" ? "student_home" : "teacher_home"}>
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
         {/* <NativeTabs.Trigger.Icon
           src={require("@/assets/images/tabIcons/home.png")}

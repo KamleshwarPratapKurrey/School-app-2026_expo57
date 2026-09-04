@@ -1,12 +1,14 @@
 // store/index.ts
 import { configureStore } from "@reduxjs/toolkit";
 import attendanceReducer from "./slices/attendanceSlice";
+import complaintReducer from "./slices/comlaintSlice";
 import noticeReducer from "./slices/noticeSlice";
 import schoolInfoReducer from "./slices/school_info_slice";
+import subjectReducer from "./slices/subjectSlice";
 import teacherReducer from "./slices/teacherSlice";
+import teacherStudentsReducer from "./slices/teacherStudentsSlice";
 import timetableReducer from "./slices/timetableSlice";
 import transportReducer from "./slices/transportSlice";
-import subjectReducer from "./slices/subjectSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +18,9 @@ export const store = configureStore({
     notices: noticeReducer,
     timetable: timetableReducer,
     transport: transportReducer,
-    subjects: subjectReducer
+    subjects: subjectReducer,
+    teacherStudents: teacherStudentsReducer,
+    complaints: complaintReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
