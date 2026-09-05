@@ -1,4 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -10,18 +12,15 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
+import { api_url } from "@/components/common/ApiUrls";
+import { StatusCode } from "@/constants/app_constants";
+import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
-import { Fonts } from "@/constants/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { StudentItem } from "@/types/student";
-import { StatusCode } from "@/constants/app_constants";
 import { fetchTeacherStudents } from "@/store/slices/teacherStudentsSlice";
-import { api_url } from "@/components/common/ApiUrls";
+import { StudentItem } from "@/types/student";
 import { Stack } from "expo-router";
 
 export default function StudentsScreen() {
@@ -476,11 +475,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 0,
   },
   countBadgeText: {
     fontFamily: Fonts?.semibold || "System",
@@ -492,14 +491,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     borderRadius: 16,
-    borderWidth: 1,
+    borderWidth: 0,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginVertical: 12,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 4,
-    elevation: 1,
+    elevation: 0,
   },
   searchInput: {
     flex: 1,
@@ -514,7 +513,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 7,
     borderRadius: 18,
-    borderWidth: 1,
+    borderWidth: 0,
   },
   classPillText: {
     fontSize: 13,
@@ -536,7 +535,7 @@ const styles = StyleSheet.create({
   emptyCard: {
     padding: 36,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     alignItems: "center",
     justifyContent: "center",
     gap: 12,
@@ -557,12 +556,12 @@ const styles = StyleSheet.create({
   },
   studentCard: {
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     padding: 16,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    elevation: 1,
+    elevation: 0,
   },
   tabletStudentCard: {
     width: "48.8%",

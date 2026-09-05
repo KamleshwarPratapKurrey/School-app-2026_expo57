@@ -2,19 +2,19 @@ import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
@@ -26,8 +26,8 @@ import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-    resetComplaintState,
-    submitComplaint,
+  resetComplaintState,
+  submitComplaint,
 } from "@/store/slices/comlaintSlice";
 import { fetchTeacherStudents } from "@/store/slices/teacherStudentsSlice";
 import { Stack } from "expo-router";
@@ -63,7 +63,7 @@ export default function ComplaintsScreen() {
     status: submitStatus,
     error: submitError,
     successMessage,
-  } = useAppSelector((state) => state.complaints);
+  } = useAppSelector((state) => state.complaint);
 
   useEffect(() => {
     dispatch(
@@ -258,7 +258,7 @@ export default function ComplaintsScreen() {
               >
                 {/* Student Dropdown */}
                 <View
-                  style={[styles.fieldGroup, { zIndex: 3000, elevation: 3000 }]}
+                  style={[styles.fieldGroup, { zIndex: 3000, elevation: 0 }]}
                 >
                   <Text
                     style={[
@@ -309,12 +309,13 @@ export default function ComplaintsScreen() {
                         borderColor: colors.borderL,
                       }}
                       listMode="SCROLLVIEW"
+                      // listMode="FLATLIST"
                     />
                   )}
                 </View>
 
                 {/* Complaint Title */}
-                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 1 }]}>
+                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 0 }]}>
                   <Text
                     style={[
                       styles.fieldLabel,
@@ -340,7 +341,7 @@ export default function ComplaintsScreen() {
                 </View>
 
                 {/* Complaint Date */}
-                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 1 }]}>
+                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 0 }]}>
                   <Text
                     style={[
                       styles.fieldLabel,
@@ -367,7 +368,7 @@ export default function ComplaintsScreen() {
                 </View>
 
                 {/* Description */}
-                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 1 }]}>
+                <View style={[styles.fieldGroup, { zIndex: 1, elevation: 0 }]}>
                   <Text
                     style={[
                       styles.fieldLabel,
@@ -489,11 +490,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 0,
   },
   headerBadgeText: {
     fontFamily: Fonts?.semibold || "System",
@@ -502,12 +503,12 @@ const styles = StyleSheet.create({
   },
   formCard: {
     borderRadius: 24,
-    borderWidth: 1,
+    borderWidth: 0,
     padding: 22,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.06,
     shadowRadius: 10,
-    elevation: 2,
+    elevation: 0,
   },
   fieldGroup: {
     marginBottom: 18,

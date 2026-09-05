@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 
-import { api_url } from "@/components/common/ApiUrls";
+import { api_url, media_url } from "@/components/common/ApiUrls";
 import { StatusCode } from "@/constants/app_constants";
 import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
@@ -123,6 +123,22 @@ export default function StudentDashboardScreen() {
       bgColor: isDark ? "rgba(162, 185, 16, 0.15)" : "#fdfdec",
       url: "/transport",
     },
+    {
+      id: "register_leave",
+      title: "Apply Leave",
+      icon: "file-document-edit-outline",
+      color: "#F59E0B",
+      bgColor: isDark ? "rgba(245, 158, 11, 0.15)" : "#FFFBEB",
+      url: "/register_leave",
+    },
+    {
+      id: "leaves",
+      title: "Leave Notes",
+      icon: "note-outline",
+      color: "#2ac6af",
+      bgColor: isDark ? "rgba(16, 223, 182, 0.15)" : "#ebfeff",
+      url: "/leaves",
+    },
   ];
 
   const overallPercent = attendanceSummary?.overall_percentage ?? 0;
@@ -164,10 +180,10 @@ export default function StudentDashboardScreen() {
               <View style={styles.userInfo}>
                 {school_info?.logo ? (
                   <Image
-                    // source={{ uri: school_info.logo }}
-                    source={{
-                      uri: `https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D`,
-                    }}
+                    source={{ uri: school_info.logo }}
+                    // source={{
+                    //   uri: `https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D`,
+                    // }}
                     style={styles.avatar}
                   />
                 ) : (
@@ -351,7 +367,7 @@ export default function StudentDashboardScreen() {
                       <View
                         style={[
                           styles.quickIconCircle,
-                          { backgroundColor: item.bgColor },
+                          // { backgroundColor: item.bgColor },
                         ]}
                       >
                         <MaterialCommunityIcons
@@ -615,7 +631,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 4,
-    // elevation: 2,
+    // elevation: 0,
   },
   badgeContainer: {
     position: "absolute",
@@ -740,12 +756,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     padding: 8,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 6,
-    // elevation: 2,
-    flexDirection:"row",
+    // elevation: 0,
+    flexDirection: "row",
     gap: 6,
   },
   quickIconCircle: {
@@ -768,7 +784,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
-    // elevation: 2,
+    // elevation: 0,
     marginBottom: 20,
   },
   statRow: {

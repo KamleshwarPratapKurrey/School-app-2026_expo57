@@ -690,7 +690,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.06,
     shadowRadius: 10,
-    // elevation: 2,
+    // elevation: 0,
   },
   vehicleHeaderBanner: {
     paddingHorizontal: 20,
@@ -781,7 +781,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    // elevation: 1,
+    // elevation: 0,
   },
   crewHeader: {
     flexDirection: "row",

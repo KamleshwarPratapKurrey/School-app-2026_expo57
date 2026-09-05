@@ -1,20 +1,20 @@
 import {
-    Feather,
-    FontAwesome5,
-    Ionicons,
-    MaterialCommunityIcons,
+  Feather,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -65,21 +65,21 @@ export default function TeacherDashboardScreen() {
 
   const teacherQuickLinks = [
     {
-      id: "complaints",
-      title: "Complaints",
+      id: "reg_comp",
+      title: "Apply Complaint",
       icon: "calendar-clock",
       color: "#06B6D4",
       bgColor: isDark ? "rgba(6, 182, 212, 0.15)" : "#ECFEFF",
-      url: "/complaints",
+      url: "/register_complaint",
     },
-    // {
-    //   id: "attendance",
-    //   title: "Mark Attendance",
-    //   icon: "clipboard-check-outline",
-    //   color: "#10B981",
-    //   bgColor: isDark ? "rgba(16, 185, 129, 0.15)" : "#ECFDF5",
-    //   url: "/attendance",
-    // },
+    {
+      id: "complaints",
+      title: "Complaints",
+      icon: "clipboard-check-outline",
+      color: "#10B981",
+      bgColor: isDark ? "rgba(16, 185, 129, 0.15)" : "#ECFDF5",
+      url: "/all_complaints",
+    },
     {
       id: "notices",
       title: "Notices",
@@ -104,14 +104,22 @@ export default function TeacherDashboardScreen() {
       bgColor: isDark ? "rgba(59, 130, 246, 0.15)" : "#EFF6FF",
       url: "/students",
     },
-    // {
-    //   id: "transport",
-    //   title: "Transport Route",
-    //   icon: "bus-school",
-    //   color: "#F59E0B",
-    //   bgColor: isDark ? "rgba(245, 158, 11, 0.15)" : "#FFFBEB",
-    //   url: "/transport",
-    // },
+    {
+      id: "register_leave",
+      title: "Apply Leave",
+      icon: "file-document-edit-outline",
+      color: "#F59E0B",
+      bgColor: isDark ? "rgba(245, 158, 11, 0.15)" : "#FFFBEB",
+      url: "/register_leave",
+    },
+    {
+      id: "leaves",
+      title: "Leave Notes",
+      icon: "note-outline",
+      color: "#2ac6af",
+      bgColor: isDark ? "rgba(16, 223, 182, 0.15)" : "#ebfeff",
+      url: "/leaves",
+    },
   ];
 
   return (
@@ -142,9 +150,10 @@ export default function TeacherDashboardScreen() {
               <View style={styles.userInfo}>
                 {school_info?.logo ? (
                   <Image
-                    source={{
-                      uri: "https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D",
-                    }}
+                    // source={{
+                    //   uri: "https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D",
+                    // }}
+                    source={{ uri: school_info?.logo }}
                     style={styles.avatar}
                   />
                 ) : (
@@ -290,7 +299,7 @@ export default function TeacherDashboardScreen() {
                   <View
                     style={[
                       styles.quickIconCircle,
-                      { backgroundColor: item.bgColor },
+                      // { backgroundColor: item.bgColor },
                     ]}
                   >
                     <MaterialCommunityIcons
@@ -433,7 +442,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.15,
     shadowRadius: 12,
-    elevation: 3,
+    elevation: 0,
   },
   heroTextContainer: {
     flex: 1,
@@ -515,18 +524,21 @@ const styles = StyleSheet.create({
   quickCard: {
     width: "48%",
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     // paddingVertical: 14,
     // paddingHorizontal: 14,
-    padding: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 8,
+    // padding: 8,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
+    // justifyContent: "center",
+    // gap: 10,
+    gap: 6,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    elevation: 1,
+    elevation: 0,
   },
   tabletQuickCard: {
     width: "31.8%",

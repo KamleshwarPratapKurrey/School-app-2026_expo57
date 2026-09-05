@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 
@@ -15,26 +16,26 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const systemTheme = useColorScheme() as Theme | null;
 
-  const [theme, setTheme] = useState<Theme>(systemTheme || "light");
-  // const [theme, setTheme] = useState<Theme>("light");
+  // const [theme, setTheme] = useState<Theme>(systemTheme || "light");
+  const [theme, setTheme] = useState<Theme>("light");
 
   // Load saved theme //imp.
-  // useEffect(() => {
-  //   async function loadTheme() {
-  //     const savedTheme = await AsyncStorage.getItem("theme");
+  useEffect(() => {
+    async function loadTheme() {
+      const savedTheme = await AsyncStorage.getItem("theme");
 
-  //     if (savedTheme) {
-  //       setTheme(savedTheme as Theme);
-  //     }
-  //   }
+      if (savedTheme) {
+        setTheme(savedTheme as Theme);
+      }
+    }
 
-  //   loadTheme();
-  // }, []);
+    loadTheme();
+  }, []);
 
   // Save theme when changed //imp.
-  // useEffect(() => {
-  //   AsyncStorage.setItem("theme", theme);
-  // }, [theme]);
+  useEffect(() => {
+    AsyncStorage.setItem("theme", theme);
+  }, [theme]);
 
   // my ADDITIONAL LOGIC TO set theme
   useEffect(() => {

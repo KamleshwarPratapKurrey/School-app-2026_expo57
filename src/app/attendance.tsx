@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 0,
   },
   filterText: {
     fontFamily: Fonts?.semibold || "System",
@@ -643,7 +643,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.06,
     shadowRadius: 10,
-    elevation: 2,
+    elevation: 0,
   },
   circularMetricWrap: {
     marginBottom: 20,
@@ -718,7 +718,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    elevation: 2,
+    elevation: 0,
   },
   monthCardTop: {
     flexDirection: "row",

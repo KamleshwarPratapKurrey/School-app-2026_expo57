@@ -28,3 +28,19 @@ export interface SubmitComplaintParams {
   token?: string | null;
   formData: CreateComplaintPayload;
 }
+
+// getting complaints 
+export interface ComplaintListItem {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  teacher: string;
+  student: string;
+}
+
+export interface AllComplaintsApiResponse {
+  status: boolean;
+  data: ComplaintListItem[];
+  message?: string;
+}

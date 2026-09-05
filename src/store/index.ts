@@ -9,6 +9,8 @@ import teacherReducer from "./slices/teacherSlice";
 import teacherStudentsReducer from "./slices/teacherStudentsSlice";
 import timetableReducer from "./slices/timetableSlice";
 import transportReducer from "./slices/transportSlice";
+import teacherProfileReducer from "./slices/teacherProfileSlice";
+import leaveReducer from "./slices/leaveSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +22,9 @@ export const store = configureStore({
     transport: transportReducer,
     subjects: subjectReducer,
     teacherStudents: teacherStudentsReducer,
-    complaints: complaintReducer
+    complaint: complaintReducer,
+    teacherProfile: teacherProfileReducer,
+    leave: leaveReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

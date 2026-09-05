@@ -103,10 +103,50 @@ export default function RootStack() {
           }}
         />
         <Stack.Screen
-          name="complaints"
+          name="register_complaint"
           options={{
             // headerShown: false,
-            title: "Complaint",
+            title: "Apply for Complaint",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="all_complaints"
+          options={{
+            // headerShown: false,
+            title: "Complaints",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="teacher_profile"
+          options={{
+            // headerShown: false,
+            title: "",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="update_password"
+          options={{
+            // headerShown: false,
+            title: "",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="register_leave"
+          options={{
+            // headerShown: false,
+            title: "Apply for Leave",
+            headerTransparent: false,
+          }}
+        />
+        <Stack.Screen
+          name="leaves"
+          options={{
+            // headerShown: false,
+            title: "Leave Notes",
             headerTransparent: false,
           }}
         />

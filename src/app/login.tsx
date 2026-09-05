@@ -133,7 +133,7 @@ export default function Login() {
         showErrorToast(err_msg);
       }
     } catch (e: any) {
-      console.log("Login error", e);
+      // console.log("Login error", e);
       showErrorToast("Error", typeof e?.message === "string" ? e.message : e);
     } finally {
       setFetchLoader(false);

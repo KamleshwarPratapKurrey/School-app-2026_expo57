@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -9,17 +10,14 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
+import { api_url } from "@/components/common/ApiUrls";
+import { StatusCode } from "@/constants/app_constants";
+import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
-import { Fonts } from "@/constants/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchSubjects } from "@/store/slices/subjectSlice";
-import { StatusCode } from "@/constants/app_constants";
-import { api_url } from "@/components/common/ApiUrls";
 
 export default function SubjectsScreen() {
   const { colors, theme } = useTheme();
@@ -32,16 +30,18 @@ export default function SubjectsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("All");
 
-  const { data: subjects, status, error } = useAppSelector(
-    (state) => state.subjects
-  );
+  const {
+    data: subjects,
+    status,
+    error,
+  } = useAppSelector((state) => state.subjects);
 
   const loadData = async () => {
     await dispatch(
       fetchSubjects({
         endpoint: `${api_url}/subjects`,
         token,
-      })
+      }),
     );
   };
 
@@ -61,7 +61,7 @@ export default function SubjectsScreen() {
     activeTab === "All"
       ? subjects
       : subjects.filter(
-          (sub) => sub.sub_type.toLowerCase() === activeTab.toLowerCase()
+          (sub) => sub.sub_type.toLowerCase() === activeTab.toLowerCase(),
         );
 
   const getTypeTheme = (type: string) => {
@@ -120,7 +120,9 @@ export default function SubjectsScreen() {
             />
           }
         >
-          <View style={[styles.innerWrapper, isTablet && styles.tabletInnerWrapper]}>
+          <View
+            style={[styles.innerWrapper, isTablet && styles.tabletInnerWrapper]}
+          >
             {/* Header */}
             <View style={styles.header}>
               <View>
@@ -388,7 +390,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    // elevation: 1,
+    // elevation: 0,
   },
   badgeText: {
     fontFamily: Fonts?.semibold || "System",
@@ -453,7 +455,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    // elevation: 1,
+    // elevation: 0,
   },
   tabletSubjectCard: {
     width: "48.8%",

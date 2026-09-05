@@ -517,7 +517,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    // elevation: 1,
+    // elevation: 0,
   },
   countBadgeText: {
     fontFamily: Fonts?.semibold || "System",
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.06,
     shadowRadius: 10,
-    // elevation: 2,
+    // elevation: 0,
   },
   featuredBanner: {
     flexDirection: "row",
@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 6,
-    // elevation: 1,
+    // elevation: 0,
   },
   iconBox: {
     width: 44,

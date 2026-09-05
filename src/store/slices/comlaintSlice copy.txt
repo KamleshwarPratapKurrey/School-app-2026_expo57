@@ -1,17 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FetchParams } from "@/types/school";
+
 import {
-  AllComplaintsApiResponse,
-  ComplaintListItem,
+  ComplaintApiResponse,
   ComplaintRecord,
   SubmitComplaintParams,
 } from "@/types/complaint";
 import { StatusCode, StatusType } from "@/constants/app_constants";
 
 interface ComplaintState {
-  allComplaints: ComplaintListItem[];
-  listStatus: StatusType;
-  listError: string | null;
   lastSubmitted: ComplaintRecord | null;
   status: StatusType;
   error: string | null;
@@ -19,50 +15,14 @@ interface ComplaintState {
 }
 
 const initialState: ComplaintState = {
-  allComplaints: [],
-  listStatus: StatusCode.IDLE,
-  listError: null,
   lastSubmitted: null,
   status: StatusCode.IDLE,
   error: null,
   successMessage: null,
 };
 
-export const fetchAllComplaints = createAsyncThunk<
-  ComplaintListItem[],
-  FetchParams,
-  { rejectValue: string }
->(
-  "complaint/fetchAllComplaints",
-  async ({ endpoint, token }, { rejectWithValue }) => {
-    try {
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      };
-
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
-
-      const response = await fetch(endpoint, { method: "GET", headers });
-      const result: AllComplaintsApiResponse = await response.json();
-
-      if (!response.ok || !result.status) {
-        return rejectWithValue(
-          result.message || "Failed to fetch complaints list"
-        );
-      }
-
-      return result.data;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Network request failed");
-    }
-  }
-);
-
 export const submitComplaint = createAsyncThunk<
-  any,
+  ComplaintApiResponse,
   SubmitComplaintParams,
   { rejectValue: string }
 >(
@@ -89,7 +49,7 @@ export const submitComplaint = createAsyncThunk<
         body: data,
       });
 
-      const result = await response.json();
+      const result: ComplaintApiResponse = await response.json();
 
       if (!response.ok || !result.status) {
         return rejectWithValue(result.message || "Failed to submit complaint");
@@ -115,35 +75,20 @@ export const complaintSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch All Complaints
-      .addCase(fetchAllComplaints.pending, (state) => {
-        state.listStatus = StatusCode.LOADING;
-        state.listError = null;
-      })
-      .addCase(
-        fetchAllComplaints.fulfilled,
-        (state, action: PayloadAction<ComplaintListItem[]>) => {
-          state.listStatus = StatusCode.SUCCEEDED;
-          state.allComplaints = action.payload;
-          state.listError = null;
-        }
-      )
-      .addCase(fetchAllComplaints.rejected, (state, action) => {
-        state.listStatus = StatusCode.FAILED;
-        state.listError = action.payload || "Failed to load complaints";
-      })
-      // Submit Complaint
       .addCase(submitComplaint.pending, (state) => {
         state.status = StatusCode.LOADING;
         state.error = null;
         state.successMessage = null;
       })
-      .addCase(submitComplaint.fulfilled, (state, action) => {
-        state.status = StatusCode.SUCCEEDED;
-        state.lastSubmitted = action.payload.data;
-        state.successMessage = action.payload.message;
-        state.error = null;
-      })
+      .addCase(
+        submitComplaint.fulfilled,
+        (state, action: PayloadAction<ComplaintApiResponse>) => {
+          state.status = StatusCode.SUCCEEDED;
+          state.lastSubmitted = action.payload.data;
+          state.successMessage = action.payload.message;
+          state.error = null;
+        }
+      )
       .addCase(submitComplaint.rejected, (state, action) => {
         state.status = StatusCode.FAILED;
         state.error = action.payload || "Could not register complaint";

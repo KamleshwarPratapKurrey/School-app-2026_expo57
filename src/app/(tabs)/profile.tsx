@@ -2,7 +2,11 @@ import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
 import { useAppSelector } from "@/store/hooks";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import {
@@ -385,6 +389,7 @@ export default function Profile() {
                       { borderBottomColor: colors.borderL },
                     ]}
                     activeOpacity={0.7}
+                    onPress={() => router.push("/update_password")}
                   >
                     <View style={styles.rowLeftContent}>
                       <LinearGradient
@@ -425,7 +430,7 @@ export default function Profile() {
                     />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.rowItem}
                     activeOpacity={0.7}
                     onPress={() => router.push("/notices")}
@@ -471,7 +476,52 @@ export default function Profile() {
                       size={18}
                       color={colors.icon}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
+                  {user?.role !== "Student" && (
+                    <TouchableOpacity
+                      style={styles.rowItem}
+                      activeOpacity={0.7}
+                      onPress={() => router.push("/teacher_profile")}
+                    >
+                      <View style={styles.rowLeftContent}>
+                        <LinearGradient
+                          colors={["#EC4899", "#D946EF"]}
+                          style={styles.iconWrapper}
+                        >
+                          <AntDesign name="profile" size={17} color="#FFFFFF" />
+                        </LinearGradient>
+                        <View style={styles.rowInfo}>
+                          <Text
+                            style={[
+                              styles.rowTitle,
+                              {
+                                color: colors.text,
+                                fontSize: colors.font16,
+                              },
+                            ]}
+                          >
+                            Faculty Profile
+                          </Text>
+                          <Text
+                            style={[
+                              styles.rowSubtitle,
+                              {
+                                color: colors.subtext,
+                                fontSize: colors.font13,
+                              },
+                            ]}
+                          >
+                            Teaching allocations
+                          </Text>
+                        </View>
+                      </View>
+                      <Ionicons
+                        name="chevron-forward"
+                        size={18}
+                        color={colors.icon}
+                      />
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
 
@@ -571,7 +621,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
-    // elevation: 2,
+    // elevation: 0,
   },
   badgeContainer: {
     position: "absolute",
@@ -611,7 +661,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
-    // elevation: 2,
+    // elevation: 0,
   },
   tabletUserCard: {
     flex: 1,
@@ -712,7 +762,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
-    // elevation: 1,
+    // elevation: 0,
   },
   rowItem: {
     flexDirection: "row",

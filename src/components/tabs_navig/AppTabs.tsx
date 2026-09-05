@@ -37,18 +37,19 @@ export default function AppTabs() {
           // />
 
           // Google fonts: Material icon glyph name. See the Material icons for the complete catalog.
-          <Icon md={{ default: "home", selected: "home_app_logo" }} />
+          // <Icon md={{ default: "home", selected: "home_app_logo" }} />
+          <Icon md={{ default: "home", selected: "home" }} />
         )}
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
-        {/* {Platform.OS === "ios" ? (
+        {Platform.OS === "ios" ? (
           <Icon sf={{ default: "person", selected: "person.fill" }} />
         ) : (
           <Icon md={{ default: "person_outline", selected: "person" }} />
-        )} */}
-        {Platform.OS === "ios" ? (
+        )}
+        {/* {Platform.OS === "ios" ? (
           <Icon
             sf={{
               default: "person.crop.circle",
@@ -59,7 +60,7 @@ export default function AppTabs() {
           <Icon
             md={{ default: "account_circle", selected: "account_circle" }}
           />
-        )}
+        )} */}
       </NativeTabs.Trigger>
 
       {/* <NativeTabs.Trigger name="studies">
