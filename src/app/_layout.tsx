@@ -3,6 +3,7 @@ import { ToastConfig } from "@/components/common/Toast/ToastConfig";
 import RootStack from "@/components/stack_navig/RootStack";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import { UserProvider, useUser } from "@/context/UserContext";
+import { useSessionGuard } from "@/hooks/useSessionGuard";
 import { store } from "@/store";
 // import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
@@ -17,6 +18,8 @@ import { Provider } from "react-redux";
 SplashScreen.preventAutoHideAsync(); // imp.
 
 function AppContent() {
+  useSessionGuard();
+
   const { loading, user } = useUser();
   const { theme, colors } = useTheme();
   //   const [loaded] = useFonts({
@@ -63,7 +66,7 @@ function AppContent() {
   return (
     <>
       <RootStack />
-        <StatusBar style={theme === "dark"? "light": "dark"} />
+      <StatusBar style={theme === "dark" ? "light" : "dark"} />
 
       <Toast config={ToastConfig(theme === "dark")} />
     </>
@@ -73,12 +76,12 @@ function AppContent() {
 export default function RootLayout() {
   return (
     <Provider store={store}>
-    <ThemeProvider>
-      <UserProvider>
-        <AppContent />
-        {/* <StatusBar style="auto" /> */}
-      </UserProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <UserProvider>
+          <AppContent />
+          {/* <StatusBar style="auto" /> */}
+        </UserProvider>
+      </ThemeProvider>
     </Provider>
   );
 }
