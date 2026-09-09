@@ -12,14 +12,13 @@ import {
   View,
 } from "react-native";
 
-import { api_url, media_url } from "@/components/common/ApiUrls";
+import { api_url } from "@/components/common/ApiUrls";
 import { StatusCode } from "@/constants/app_constants";
 import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchAttendance } from "@/store/slices/attendanceSlice";
-import { checkUnreadNotices, fetchNotices } from "@/store/slices/noticeSlice";
 import { fetchSchoolInfo } from "@/store/slices/school_info_slice";
 import { Href, Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -42,6 +41,7 @@ export default function StudentDashboardScreen() {
   const { unreadCount, data: notices } = useAppSelector(
     (state) => state.notices,
   );
+
   useEffect(() => {
     dispatch(
       fetchSchoolInfo({
@@ -57,21 +57,21 @@ export default function StudentDashboardScreen() {
     );
 
     // NOTIIFICATIONS
-    const initNotices = async () => {
-      const res = await dispatch(
-        fetchNotices({
-          endpoint: `${api_url}/notices`,
-          token,
-        }),
-      );
+    // const initNotices = async () => {
+    //   const res = await dispatch(
+    //     fetchNotices({
+    //       endpoint: `${api_url}/notices`,
+    //       token,
+    //     }),
+    //   );
 
-      if (fetchNotices.fulfilled.match(res)) {
-        // Compare current total against AsyncStorage
-        dispatch(checkUnreadNotices(res.payload.length));
-      }
-    };
+    //   if (fetchNotices.fulfilled.match(res)) {
+    //     // Compare current total against AsyncStorage
+    //     dispatch(checkUnreadNotices(res.payload.length));
+    //   }
+    // };
 
-    initNotices();
+    // initNotices();
   }, [dispatch, token]);
 
   const quickLinks = [
@@ -131,14 +131,14 @@ export default function StudentDashboardScreen() {
       bgColor: isDark ? "rgba(245, 158, 11, 0.15)" : "#FFFBEB",
       url: "/register_leave",
     },
-    {
-      id: "leaves",
-      title: "Leave Notes",
-      icon: "note-outline",
-      color: "#2ac6af",
-      bgColor: isDark ? "rgba(16, 223, 182, 0.15)" : "#ebfeff",
-      url: "/leaves",
-    },
+    // {
+    //   id: "leaves",
+    //   title: "Leave Notes",
+    //   icon: "note-outline",
+    //   color: "#2ac6af",
+    //   bgColor: isDark ? "rgba(16, 223, 182, 0.15)" : "#ebfeff",
+    //   url: "/leaves",
+    // },
   ];
 
   const overallPercent = attendanceSummary?.overall_percentage ?? 0;
@@ -180,10 +180,10 @@ export default function StudentDashboardScreen() {
               <View style={styles.userInfo}>
                 {school_info?.logo ? (
                   <Image
-                    source={{ uri: school_info.logo }}
                     // source={{
-                    //   uri: `https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D`,
+                    //   uri: "https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/294146202_433930778750384_5455115691759611655_n.jpg?stp=dst-jpg_tt6&cstp=mx888x888&ctp=s888x888&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u6EaUMHgvPwQ7kNvwHAzzNB&_nc_oc=Adr80nMTO1qb5RrNNOYKcX-eMdxxYazAL-umBPntBG_AHdoalUvFE4_cY-6MobcjnPo&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&_nc_gid=r48pI3k4P-JO6CwHT4y_8Q&_nc_ss=7b289&oh=00_AQIZs7SxSKxHBsuDrB5V0AEj1fAJFOqaG578HPSSU2kd5g&oe=6A9DDE9D",
                     // }}
+                    source={{ uri: school_info?.logo }}
                     style={styles.avatar}
                   />
                 ) : (
@@ -590,14 +590,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 52,
+    height: 52,
+    // borderRadius: 31,
+    borderRadius: 2,
   },
   avatarFallback: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    // borderRadius: 2,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
+import * as Updates from "expo-updates";
 
 type UserContextType = {
   user: User | null;
@@ -19,6 +20,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  // const disptach = useAppDispatch();
 
   useEffect(() => {
     async function loadUser() {
@@ -48,14 +50,17 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setToken(authToken);
     setUser(userData);
   };
-
+  
   const logoutK = async () => {
     await SecureStore.deleteItemAsync("token");
     await AsyncStorage.removeItem("user");
     await AsyncStorage.removeItem("stored_notices_count");
+    await AsyncStorage.removeItem("stored_leave_count");
     setToken(null);
     setUser(null);
     await userLogoutFun();
+    // disptach(resetSchoolState());
+    await Updates.reloadAsync();
   };
 
   const userLogoutFun = async () => {

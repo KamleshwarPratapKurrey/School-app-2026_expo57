@@ -1,4 +1,7 @@
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -32,6 +35,18 @@ import {
 import { fetchTeacherStudents } from "@/store/slices/teacherStudentsSlice";
 import { Stack } from "expo-router";
 
+const formatDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const parseDate = (value: string) => {
+  const [year, month, day] = value.split("-").map(Number);
+  return year && month && day ? new Date(year, month - 1, day) : new Date();
+};
+
 export default function ComplaintsScreen() {
   const { colors, theme } = useTheme();
   const { token } = useUser();
@@ -54,6 +69,7 @@ export default function ComplaintsScreen() {
     const today = new Date();
     return today.toISOString().split("T")[0]; // Defaults to "YYYY-MM-DD"
   });
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   // Redux Selectors
   const { data: studentGroups, status: studentStatus } = useAppSelector(
@@ -137,6 +153,13 @@ export default function ComplaintsScreen() {
         },
       }),
     );
+  };
+
+  const handleDateChange = (event: DateTimePickerEvent, date?: Date) => {
+    setShowDatePicker(false);
+    if (event.type !== "dismissed" && date) {
+      setComplaintDate(formatDate(date));
+    }
   };
 
   const isSubmitting = submitStatus === StatusCode.LOADING;
@@ -351,20 +374,44 @@ export default function ComplaintsScreen() {
                     Complaint Date (YYYY-MM-DD){" "}
                     <Text style={{ color: "#EF4444" }}>*</Text>
                   </Text>
-                  <TextInput
+                  <View
                     style={[
-                      styles.textInput,
+                      styles.dateInputContainer,
                       {
                         backgroundColor: isDark ? colors.borderL : "#F8FAFC",
                         borderColor: colors.borderL,
-                        color: colors.text,
                       },
                     ]}
-                    placeholder="YYYY-MM-DD"
-                    placeholderTextColor={colors.subtext}
-                    value={complaintDate}
-                    onChangeText={setComplaintDate}
-                  />
+                  >
+                    <Feather name="calendar" size={16} color={colors.subtext} />
+                    {Platform.OS === "web" ? (
+                      <TextInput
+                        style={[styles.dateInputText, { color: colors.text }]}
+                        value={complaintDate}
+                        onChangeText={setComplaintDate}
+                      />
+                    ) : (
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => setShowDatePicker(true)}
+                        style={styles.datePickerButton}
+                      >
+                        <Text
+                          style={[styles.dateInputText, { color: colors.text }]}
+                        >
+                          {complaintDate}
+                        </Text>
+                      </Pressable>
+                    )}
+                  </View>
+                  {showDatePicker && Platform.OS !== "web" && (
+                    <DateTimePicker
+                      value={parseDate(complaintDate)}
+                      mode="date"
+                      display={Platform.OS === "ios" ? "compact" : "default"}
+                      onChange={handleDateChange}
+                    />
+                  )}
                 </View>
 
                 {/* Description */}
@@ -536,6 +583,25 @@ const styles = StyleSheet.create({
     height: 48,
     fontFamily: Fonts?.regular || "System",
     fontSize: 14,
+  },
+  dateInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 14,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    height: 48,
+  },
+  datePickerButton: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  dateInputText: {
+    flex: 1,
+    marginLeft: 10,
+    fontFamily: Fonts?.regular || "System",
+    fontSize: 14,
+    paddingTop: 14,
   },
   textAreaInput: {
     borderRadius: 14,

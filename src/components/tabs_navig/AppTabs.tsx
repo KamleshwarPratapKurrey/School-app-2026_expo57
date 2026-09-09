@@ -6,50 +6,51 @@ import { Icon } from "expo-router";
 import { useUser } from "@/context/UserContext";
 
 export default function AppTabs() {
-  //   const colors = Colors[scheme === "unspecified" ? "light" : scheme];
   const { colors } = useTheme();
-  const {user} = useUser()
+  const { user } = useUser();
+
+  // Keep the bar visually separate from the content while preserving the
+  // platform-native tab behavior and safe-area handling.
+  // const tabBarBackground = `${colors.card}F2`;
+  const tabBarBackground = `${colors.background}F2`;
 
   return (
     <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.tint}
+      backgroundColor={tabBarBackground}
+      blurEffect={Platform.OS === "ios" ? "systemMaterial" : "none"}
+      disableTransparentOnScrollEdge
+      shadowColor={colors.shadowClr}
+      iconColor={colors.icon}
+      tintColor={colors.tint}
+      rippleColor={`${colors.tint}22`}
+      indicatorColor={`${colors.tint}20`}
       labelStyle={{
-        default: { color: colors.subtext },
-        selected: { color: colors.text },
+        default: {
+          color: colors.subtext,
+          fontSize: 11,
+          fontWeight: "500",
+        },
+        selected: {
+          color: colors.tint,
+          fontSize: 11,
+          fontWeight: "700",
+        },
       }}
-      // tintColor={{
-      //   default: colors.tabIconDefault,
-      //   selected: colors.tabIconSelected,
-      // }}
     >
-      <NativeTabs.Trigger name={user?.role === "Student" ? "student_home" : "teacher_home"}>
+      <NativeTabs.Trigger
+        name={user?.role === "Student" ? "student_home" : "teacher_home"}
+      >
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        {/* <NativeTabs.Trigger.Icon
-          src={require("@/assets/images/tabIcons/home.png")}
-          renderingMode="template"
-        /> */}
         {Platform.OS === "ios" ? (
           <Icon sf={{ default: "house", selected: "house.fill" }} />
         ) : (
-          // <Icon
-          //   src={<VectorIcon family={MaterialCommunityIcons} name="home" />}
-          // />
-
-          // Google fonts: Material icon glyph name. See the Material icons for the complete catalog.
-          // <Icon md={{ default: "home", selected: "home_app_logo" }} />
-          <Icon md={{ default: "home", selected: "home" }} />
+          <Icon md={{ default: "home", selected: "home_filled" }} />
         )}
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
         {Platform.OS === "ios" ? (
-          <Icon sf={{ default: "person", selected: "person.fill" }} />
-        ) : (
-          <Icon md={{ default: "person_outline", selected: "person" }} />
-        )}
-        {/* {Platform.OS === "ios" ? (
           <Icon
             sf={{
               default: "person.crop.circle",
@@ -57,19 +58,9 @@ export default function AppTabs() {
             }}
           />
         ) : (
-          <Icon
-            md={{ default: "account_circle", selected: "account_circle" }}
-          />
-        )} */}
+          <Icon md={{ default: "person_outline", selected: "person" }} />
+        )}
       </NativeTabs.Trigger>
-
-      {/* <NativeTabs.Trigger name="studies">
-        <NativeTabs.Trigger.Label>Studies</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require("@/assets/images/tabIcons/explore.png")}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger> */}
     </NativeTabs>
   );
 }

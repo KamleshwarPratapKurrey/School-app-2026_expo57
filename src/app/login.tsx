@@ -8,17 +8,17 @@ import Feather from "@expo/vector-icons/Feather";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function Login() {
@@ -49,7 +49,7 @@ export default function Login() {
     if (!mob.trim()) {
       newErrors.mob = "Username number is required";
       valid = false;
-    } 
+    }
     // else if (!mobileRegex.test(mob)) {
     //   newErrors.mob = "Enter a valid 10-digit mobile number";
     //   valid = false;
@@ -244,7 +244,7 @@ export default function Login() {
                   errors.mob && styles.inputError,
                 ]}
                 placeholderTextColor={colors.subtext}
-                maxLength={10}
+                // maxLength={10}
               />
               {/* {mob && ( */}
               <Text

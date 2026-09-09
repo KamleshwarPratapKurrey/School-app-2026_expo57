@@ -1,23 +1,32 @@
 {
   "expo": {
-    "name": "school-project",
-    "slug": "school-project",
+    "name": "School",
+    "slug": "School",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icons/adaptive-icon.png",
     "scheme": "schoolproject",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
+      // "icon": "./assets/expo.icon",
+      "icon": {
+        "dark": "./assets/icons/ios-icon/ios-dark.png",
+        "light": "./assets/icons/ios-icon/ios-light.png",
+        "tinted": "./assets/icons/ios-icon/ios-tinted.png"
+      },
       "bundleIdentifier": "com.siddhisoftwaress.schoolproject"
     },
     "android": {
       "softwareKeyboardLayoutMode": "resize",
+      // "adaptiveIcon": {
+      //   "backgroundColor": "#E6F4FE",
+      //   "foregroundImage": "./assets/images/android-icon-foreground.png",
+      //   "backgroundImage": "./assets/images/android-icon-background.png",
+      //   "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      // },
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/icons/adaptive-icon.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.siddhisoftwaress.schoolproject"
@@ -31,12 +40,22 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          // "backgroundColor": "#208AEF",
+          // "image": "./assets/images/splash-icon.png",
+          // "imageWidth": 76
+
+          "image": "./assets/icons/splash-icon-dark.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/icons/splash-icon-light.png",
+            "backgroundColor": "#000000"
+          }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,

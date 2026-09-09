@@ -1,15 +1,20 @@
 import { api_url } from "@/components/common/ApiUrls";
 import { useUser } from "@/context/UserContext";
+import { useAppDispatch } from "@/store/hooks";
+import { autoFetchAllLeaves, checkUnreadLeave } from "@/store/slices/leaveSlice";
+import { autoFetchNotices, checkUnreadNotices } from "@/store/slices/noticeSlice";
 import { useEffect, useRef } from "react";
 import { Alert, AppState, AppStateStatus } from "react-native";
 
-const CHECK_INTERVAL = 8 * 60 * 1000; // 8 minutes
+const CHECK_INTERVAL = 1 * 60 * 1000; // 8 minutes
+// const CHECK_INTERVAL = 1 * 60 * 1000; // 8 minutes
 
 export function useSessionGuard() {
     const { token, logout } = useUser();
     // Safe across Node, DOM, and React Native runtimes
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const isAlertVisible = useRef(false);
+    const dispatch = useAppDispatch()
 
     const checkStatus = async () => {
         if (!token || isAlertVisible.current) return;
@@ -24,9 +29,10 @@ export function useSessionGuard() {
             });
 
             const resData = await response.json();
+            // console.log("resData=>", resData)
 
             // Check for logout trigger
-            if (resData.status === false && resData.logout === true) {
+            if (resData.status === false && resData.logout === true || resData.message === "Unauthenticated.") {
                 isAlertVisible.current = true;
 
                 if (timerRef.current) {
@@ -50,6 +56,36 @@ export function useSessionGuard() {
                     ],
                     { cancelable: false } // Prevents tapping outside to dismiss
                 );
+            } else {
+                // NOTIIFICATIONS
+                const initNotices = async () => {
+                    const res = await dispatch(
+                        autoFetchNotices({
+                            endpoint: `${api_url}/notices`,
+                            token,
+                        }),
+                    );
+
+                    if (autoFetchNotices.fulfilled.match(res)) {
+                        // Compare current total against AsyncStorage
+                        dispatch(checkUnreadNotices(res.payload.length));
+                    }
+                };
+
+                const initLeaves = async () => {
+                    const res = await dispatch(
+                        autoFetchAllLeaves({
+                            endpoint: `${api_url}/leave`,
+                            token,
+                        }),
+                    );
+                    if (autoFetchAllLeaves.fulfilled.match(res)) {
+                        dispatch(checkUnreadLeave(res.payload.length));
+                    }
+                };
+
+                await initNotices();
+                await initLeaves();
             }
         } catch (error) {
             console.warn("Session status check failed:", error);

@@ -10,9 +10,13 @@ import {
 } from "@/types/leave";
 import { StatusCode, StatusType } from "@/constants/app_constants";
 import { FetchParams } from "@/types/school";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const LEAVE_STORAGE_KEY = "stored_leave_count";
 
 interface LeaveState {
     allLeaves: LeaveApplicationItem[];
+    unreadCount: number;
     listStatus: StatusType;
     listError: string | null;
     lastSubmitted: LeaveRecord | null;
@@ -23,6 +27,7 @@ interface LeaveState {
 
 const initialState: LeaveState = {
     allLeaves: [],
+    unreadCount: 0,
     listStatus: StatusCode.IDLE,
     listError: null,
     lastSubmitted: null,
@@ -37,6 +42,33 @@ export const fetchAllLeaves = createAsyncThunk<
     FetchParams,
     { rejectValue: string }
 >("leave/fetchAllLeaves", async ({ endpoint, token }, { rejectWithValue }) => {
+    try {
+        const headers: Record<string, string> = {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        };
+
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(endpoint, { method: "GET", headers });
+        const result: AllLeaveApiResponse = await response.json();
+
+        if (!response.ok || !result.status) {
+            return rejectWithValue(result.message || "Failed to fetch leave history");
+        }
+
+        return result.data;
+    } catch (err: any) {
+        return rejectWithValue(err.message || "Network request failed");
+    }
+});
+export const autoFetchAllLeaves = createAsyncThunk<
+    LeaveApplicationItem[],
+    FetchParams,
+    { rejectValue: string }
+>("leave/autoFetchAllLeaves", async ({ endpoint, token }, { rejectWithValue }) => {
     try {
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
@@ -122,6 +154,36 @@ export const submitLeaveApplication = createAsyncThunk<
     }
 );
 
+// Thunk to compare API length with AsyncStorage cached count
+export const checkUnreadLeave = createAsyncThunk<
+    number,
+    number // accepts current array length
+>("leave/checkUnread", async (currentCount) => {
+    try {
+        const rawStored = await AsyncStorage.getItem(LEAVE_STORAGE_KEY);
+        const storedCount = rawStored ? parseInt(rawStored, 10) : 0;
+
+        if (currentCount > storedCount) {
+            return currentCount - storedCount;
+        }
+        return 0;
+    } catch {
+        return 0;
+    }
+});
+
+// Thunk to reset badge once user enters the notices screen
+export const markLeaveAsSeen = createAsyncThunk<
+    void,
+    number // accepts current total count
+>("leave/markAsSeen", async (currentCount) => {
+    try {
+        await AsyncStorage.setItem(LEAVE_STORAGE_KEY, currentCount.toString());
+    } catch (e) {
+        console.error("Failed to store leave count", e);
+    }
+});
+
 export const leaveSlice = createSlice({
     name: "leave",
     initialState,
@@ -152,6 +214,14 @@ export const leaveSlice = createSlice({
                 state.listStatus = StatusCode.FAILED;
                 state.listError = action.payload || "Failed to load leave records";
             })
+            .addCase(
+                autoFetchAllLeaves.fulfilled,
+                (state, action: PayloadAction<LeaveApplicationItem[]>) => {
+                    // state.listStatus = StatusCode.SUCCEEDED;
+                    state.allLeaves = action.payload;
+                    // state.listError = null;
+                }
+            )
             // Submit leave
             .addCase(submitLeaveApplication.pending, (state) => {
                 state.status = StatusCode.LOADING;
@@ -170,6 +240,14 @@ export const leaveSlice = createSlice({
             .addCase(submitLeaveApplication.rejected, (state, action) => {
                 state.status = StatusCode.FAILED;
                 state.error = action.payload || "Could not submit leave request";
+            })
+
+            .addCase(checkUnreadLeave.fulfilled, (state, action) => {
+                state.unreadCount = action.payload;
+            })
+
+            .addCase(markLeaveAsSeen.fulfilled, (state) => {
+                state.unreadCount = 0;
             });
     },
 });

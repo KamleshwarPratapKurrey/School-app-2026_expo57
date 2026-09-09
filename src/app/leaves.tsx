@@ -3,17 +3,17 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    Image,
-    Modal,
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    useWindowDimensions,
-    View
+  ActivityIndicator,
+  Image,
+  Modal,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 
 import { api_url } from "@/components/common/ApiUrls";
@@ -22,7 +22,7 @@ import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchAllLeaves } from "@/store/slices/leaveSlice";
+import { fetchAllLeaves, markLeaveAsSeen } from "@/store/slices/leaveSlice";
 import { LeaveApplicationItem } from "@/types/leave";
 
 export default function AllLeaveScreen() {
@@ -54,6 +54,12 @@ export default function AllLeaveScreen() {
   useEffect(() => {
     loadData();
   }, [dispatch, token]);
+  useEffect(() => {
+    if (allLeaves.length > 0) {
+      // Saves the latest count to AsyncStorage & clears badge in Redux
+      dispatch(markLeaveAsSeen(allLeaves.length));
+    }
+  }, [dispatch, allLeaves.length]);
 
   const onRefresh = async () => {
     setRefreshing(true);

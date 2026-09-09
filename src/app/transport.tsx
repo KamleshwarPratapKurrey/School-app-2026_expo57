@@ -61,6 +61,7 @@ export default function TransportScreen() {
     Linking.openURL(`tel:${phoneNumber}`);
   };
 
+  // console.log("transporting-->", transport);
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* <LinearGradient
@@ -465,7 +466,7 @@ export default function TransportScreen() {
                     </View>
 
                     {/* Helper Card */}
-                    <View
+                    {/* <View
                       style={[
                         styles.crewCard,
                         {
@@ -556,7 +557,7 @@ export default function TransportScreen() {
                           </Text>
                         </View>
                       )}
-                    </View>
+                    </View> */}
                   </View>
                 </View>
               </View>

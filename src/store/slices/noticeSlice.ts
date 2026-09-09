@@ -49,6 +49,34 @@ export const fetchNotices = createAsyncThunk<
   }
 });
 
+export const autoFetchNotices = createAsyncThunk<
+  NoticeItem[],
+  FetchParams,
+  { rejectValue: string }
+>("notices/autoFetchNotices", async ({ endpoint, token }, { rejectWithValue }) => {
+  try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(endpoint, { method: "GET", headers });
+    const result: NoticesApiResponse = await response.json();
+
+    if (!response.ok || !result.status) {
+      return rejectWithValue(result.message || "Failed to fetch notices");
+    }
+
+    return result.data;
+  } catch (err: any) {
+    return rejectWithValue(err.message || "Network request failed");
+  }
+});
+
 // Thunk to compare API length with AsyncStorage cached count
 export const checkUnreadNotices = createAsyncThunk<
   number,
@@ -103,9 +131,15 @@ export const noticeSlice = createSlice({
         state.status = StatusCode.FAILED;
         state.error = action.payload || "Failed to load notices";
       })
+
+      .addCase(autoFetchNotices.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+
       .addCase(checkUnreadNotices.fulfilled, (state, action) => {
         state.unreadCount = action.payload;
       })
+
       .addCase(markNoticesAsSeen.fulfilled, (state) => {
         state.unreadCount = 0;
       });

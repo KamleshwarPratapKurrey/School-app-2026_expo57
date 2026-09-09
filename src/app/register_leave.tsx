@@ -19,6 +19,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { Stack, useRouter } from "expo-router";
 import * as ImageManipulator from "expo-image-manipulator";
 
@@ -34,6 +37,21 @@ import { api_url } from "@/components/common/ApiUrls";
 import { StatusCode } from "@/constants/app_constants";
 import { showInfoToast } from "@/components/common/Toast/ToastService";
 
+const formatDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const parseDate = (value: string, fallback = new Date()) => {
+  const [year, month, day] = value.split("-").map(Number);
+  if (year && month && day) {
+    return new Date(year, month - 1, day);
+  }
+  return fallback;
+};
+
 export default function LeaveFormScreen() {
   const { colors, theme } = useTheme();
   const { token } = useUser();
@@ -45,8 +63,13 @@ export default function LeaveFormScreen() {
   const isDark = theme === "dark";
 
   // Form Fields
-  const [fromDate, setFromDate] = useState("");
+  const [fromDate, setFromDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // Defaults to "YYYY-MM-DD"
+  });
   const [toDate, setToDate] = useState("");
+  const [showFromDatePicker, setShowFromDatePicker] = useState(false);
+  const [showToDatePicker, setShowToDatePicker] = useState(false);
   const [reason, setReason] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState<{
     uri: string;
@@ -114,6 +137,25 @@ export default function LeaveFormScreen() {
         name: filename,
         type: "image/webp", // Matches WEBP SaveFormat
       });
+    }
+  };
+
+  const handleDateChange = (
+    type: "from" | "to",
+    event: DateTimePickerEvent,
+    date?: Date,
+  ) => {
+    setShowFromDatePicker(false);
+    setShowToDatePicker(false);
+
+    if (event.type === "dismissed" || !date) return;
+
+    const formattedDate = formatDate(date);
+    if (type === "from") {
+      setFromDate(formattedDate);
+      if (toDate && parseDate(toDate) < date) setToDate(formattedDate);
+    } else {
+      setToDate(formattedDate);
     }
   };
 
@@ -299,14 +341,34 @@ export default function LeaveFormScreen() {
                           size={16}
                           color={colors.subtext}
                         />
-                        <TextInput
-                          style={[styles.textInput, { color: colors.text }]}
-                          placeholder="e.g. 2026-09-19"
-                          placeholderTextColor={colors.subtext}
-                          value={fromDate}
-                          onChangeText={setFromDate}
-                        />
+                        {Platform.OS === "web" ? (
+                          <TextInput
+                            style={[styles.textInput, { color: colors.text }]}
+                            value={fromDate}
+                            onChangeText={setFromDate}
+                          />
+                        ) : (
+                          <Pressable
+                            accessibilityRole="button"
+                            onPress={() => setShowFromDatePicker(true)}
+                            style={styles.datePickerButton}
+                          >
+                            <Text style={[styles.textInput, { color: colors.text }]}>
+                              {fromDate}
+                            </Text>
+                          </Pressable>
+                        )}
                       </View>
+                      {showFromDatePicker && Platform.OS !== "web" && (
+                        <DateTimePicker
+                          value={parseDate(fromDate)}
+                          mode="date"
+                          display={Platform.OS === "ios" ? "compact" : "default"}
+                          onChange={(event, date) =>
+                            handleDateChange("from", event, date)
+                          }
+                        />
+                      )}
                     </View>
 
                     <View style={styles.dateCol}>
@@ -335,14 +397,42 @@ export default function LeaveFormScreen() {
                           size={16}
                           color={colors.subtext}
                         />
-                        <TextInput
-                          style={[styles.textInput, { color: colors.text }]}
-                          placeholder="e.g. 2026-09-24"
-                          placeholderTextColor={colors.subtext}
-                          value={toDate}
-                          onChangeText={setToDate}
-                        />
+                        {Platform.OS === "web" ? (
+                          <TextInput
+                            style={[styles.textInput, { color: colors.text }]}
+                            placeholder="YYYY-MM-DD"
+                            placeholderTextColor={colors.subtext}
+                            value={toDate}
+                            onChangeText={setToDate}
+                          />
+                        ) : (
+                          <Pressable
+                            accessibilityRole="button"
+                            onPress={() => setShowToDatePicker(true)}
+                            style={styles.datePickerButton}
+                          >
+                            <Text
+                              style={[
+                                styles.textInput,
+                                { color: toDate ? colors.text : colors.subtext },
+                              ]}
+                            >
+                              {toDate || "Select to date"}
+                            </Text>
+                          </Pressable>
+                        )}
                       </View>
+                      {showToDatePicker && Platform.OS !== "web" && (
+                        <DateTimePicker
+                          value={parseDate(toDate, parseDate(fromDate))}
+                          minimumDate={parseDate(fromDate)}
+                          mode="date"
+                          display={Platform.OS === "ios" ? "compact" : "default"}
+                          onChange={(event, date) =>
+                            handleDateChange("to", event, date)
+                          }
+                        />
+                      )}
                     </View>
                   </View>
 
@@ -621,6 +711,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontFamily: Fonts?.regular || "System",
     fontSize: 14,
+    paddingTop: 14
+  },
+  datePickerButton: {
+    flex: 1,
+    justifyContent: "center",
   },
   textAreaInput: {
     borderRadius: 14,

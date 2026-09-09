@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 
+import { api_url } from "@/components/common/ApiUrls";
 import { StatusCode } from "@/constants/app_constants";
 import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
@@ -37,7 +38,7 @@ export default function AttendanceScreen() {
   const loadData = async () => {
     await dispatch(
       fetchAttendance({
-        endpoint: "http://192.168.1.17:7000/api/attendance",
+        endpoint: `${api_url}/attendance`,
         token,
       }),
     );

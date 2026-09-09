@@ -23,7 +23,6 @@ import { Fonts } from "@/constants/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { useUser } from "@/context/UserContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { checkUnreadNotices, fetchNotices } from "@/store/slices/noticeSlice";
 import { fetchSchoolInfo } from "@/store/slices/school_info_slice";
 
 export default function TeacherDashboardScreen() {
@@ -38,6 +37,9 @@ export default function TeacherDashboardScreen() {
 
   const { school_info } = useAppSelector((state) => state.school_info);
   const { unreadCount } = useAppSelector((state) => state.notices);
+  const { unreadCount: unreadCount_leave } = useAppSelector(
+    (state) => state.leave,
+  );
 
   useEffect(() => {
     dispatch(
@@ -47,20 +49,20 @@ export default function TeacherDashboardScreen() {
       }),
     );
 
-    const initNotices = async () => {
-      const res = await dispatch(
-        fetchNotices({
-          endpoint: `${api_url}/notices`,
-          token,
-        }),
-      );
+    // const initNotices = async () => {
+    //   const res = await dispatch(
+    //     fetchNotices({
+    //       endpoint: `${api_url}/notices`,
+    //       token,
+    //     }),
+    //   );
 
-      if (fetchNotices.fulfilled.match(res)) {
-        dispatch(checkUnreadNotices(res.payload.length));
-      }
-    };
+    //   if (fetchNotices.fulfilled.match(res)) {
+    //     dispatch(checkUnreadNotices(res.payload.length));
+    //   }
+    // };
 
-    initNotices();
+    // initNotices();
   }, [dispatch, token]);
 
   const teacherQuickLinks = [
@@ -325,6 +327,17 @@ export default function TeacherDashboardScreen() {
                     size={16}
                     color={colors.subtext}
                   /> */}
+                  {item.id === "leaves" && (
+                    <>
+                      {unreadCount_leave > 0 && (
+                        <View style={styles.badgeContainer}>
+                          <Text style={styles.badgeCount}>
+                            {unreadCount_leave > 9 ? "9+" : unreadCount_leave}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                  )}
                 </TouchableOpacity>
               ))}
             </View>
@@ -369,14 +382,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 52,
+    height: 52,
+    // borderRadius: 31,
+    borderRadius: 2,
   },
   avatarFallback: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    // borderRadius: 2,
     justifyContent: "center",
     alignItems: "center",
   },

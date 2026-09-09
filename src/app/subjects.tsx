@@ -73,6 +73,7 @@ export default function SubjectsScreen() {
           bg: isDark ? "rgba(99, 102, 241, 0.15)" : "#EEF2FF",
         };
       case "additional":
+        // case "add":
         return {
           icon: "bookmark-plus-outline",
           color: "#EC4899",
