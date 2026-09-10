@@ -102,6 +102,7 @@ export default function AllLeaveScreen() {
     }
   };
 
+  // console.log("leaves->", allLeaves);
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Stack.Screen
@@ -343,14 +344,14 @@ export default function AllLeaveScreen() {
                           { borderTopColor: colors.borderL },
                         ]}
                       >
-                        <Text
+                        {/* <Text
                           style={[
                             styles.appIdText,
                             { color: colors.subtext, fontSize: colors.font12 },
                           ]}
                         >
                           App ID: #{item.id}
-                        </Text>
+                        </Text> */}
 
                         {item.photo ? (
                           <TouchableOpacity

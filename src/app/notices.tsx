@@ -71,6 +71,7 @@ export default function NoticesScreen() {
   // Group latest notice as featured on tablet/mobile
   const latestNotice = notices.length > 0 ? notices[0] : null;
   const standardNotices = notices.length > 0 ? notices.slice(1) : [];
+  // console.log("notices-->", JSON.stringify(notices, null, 2));
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>

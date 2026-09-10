@@ -23,7 +23,7 @@ export default function RootStack() {
         // headerStyle: { backgroundColor: colors.background + "aa" },
         headerStyle: { backgroundColor: colors.background },
         headerTintColor: colors.text,
-        headerTitleStyle: { fontFamily: Fonts.semibold },
+        headerTitleStyle: { fontFamily: Fonts.semibold, fontSize: 18 },
 
         animation: "slide_from_right",
         presentation: "card",

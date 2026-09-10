@@ -30,6 +30,7 @@ import { useUser } from "@/context/UserContext";
 import { Fonts } from "@/constants/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  fetchAllLeaves,
   resetLeaveState,
   submitLeaveApplication,
 } from "@/store/slices/leaveSlice";
@@ -90,6 +91,12 @@ export default function LeaveFormScreen() {
             setReason("");
             setSelectedPhoto(null);
             dispatch(resetLeaveState());
+            // await dispatch(
+            //   fetchAllLeaves({
+            //     endpoint: `${api_url}/leave`,
+            //     token,
+            //   }),
+            // );
             router.back();
           },
         },
@@ -99,7 +106,7 @@ export default function LeaveFormScreen() {
         { text: "Dismiss", onPress: () => dispatch(resetLeaveState()) },
       ]);
 
-    //   console.log("sum-failed->", error)
+      //   console.log("sum-failed->", error)
     }
   }, [status, successMessage, error, dispatch, router]);
 
@@ -353,7 +360,9 @@ export default function LeaveFormScreen() {
                             onPress={() => setShowFromDatePicker(true)}
                             style={styles.datePickerButton}
                           >
-                            <Text style={[styles.textInput, { color: colors.text }]}>
+                            <Text
+                              style={[styles.textInput, { color: colors.text }]}
+                            >
                               {fromDate}
                             </Text>
                           </Pressable>
@@ -363,7 +372,9 @@ export default function LeaveFormScreen() {
                         <DateTimePicker
                           value={parseDate(fromDate)}
                           mode="date"
-                          display={Platform.OS === "ios" ? "compact" : "default"}
+                          display={
+                            Platform.OS === "ios" ? "compact" : "default"
+                          }
                           onChange={(event, date) =>
                             handleDateChange("from", event, date)
                           }
@@ -414,7 +425,9 @@ export default function LeaveFormScreen() {
                             <Text
                               style={[
                                 styles.textInput,
-                                { color: toDate ? colors.text : colors.subtext },
+                                {
+                                  color: toDate ? colors.text : colors.subtext,
+                                },
                               ]}
                             >
                               {toDate || "Select to date"}
@@ -427,7 +440,9 @@ export default function LeaveFormScreen() {
                           value={parseDate(toDate, parseDate(fromDate))}
                           minimumDate={parseDate(fromDate)}
                           mode="date"
-                          display={Platform.OS === "ios" ? "compact" : "default"}
+                          display={
+                            Platform.OS === "ios" ? "compact" : "default"
+                          }
                           onChange={(event, date) =>
                             handleDateChange("to", event, date)
                           }
@@ -711,7 +726,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontFamily: Fonts?.regular || "System",
     fontSize: 14,
-    paddingTop: 14
+    paddingTop: 14,
   },
   datePickerButton: {
     flex: 1,
